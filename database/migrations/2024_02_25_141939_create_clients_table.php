@@ -21,8 +21,6 @@ return new class extends Migration
             $table->foreign('created_by')->references('id')->on('users');
             $table->unsignedBigInteger('updated_by');
             $table->foreign('updated_by')->references('id')->on('users');
-            $table->string('created_on');
-            $table->string('updated_on');
             $table->timestamps();
         });
     }

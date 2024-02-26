@@ -30,8 +30,6 @@ class ClientFactory extends Factory
             'approval_status' => fake()->randomElement(['Pending', 'Processing', 'Approved']),
             'created_by' => User::all()->random()->id,
             'updated_by' => User::all()->random()->id,
-            'created_on'=> fake()->dateTime(),
-            'updated_on' => fake()->dateTime(),
         ];
     }
 }

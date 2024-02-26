@@ -42,29 +42,37 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'user_name' => ['required', 'string', 'max:255'],
+            'user_name' => ['required', 'string', 'max:255', 'unique:'.User::class],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
-        $user = User::create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'user_name' => $request->user_name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+        $data['password'] = Hash::make($data['password']);
+
+        $user = User::create($data);
+
+        // Auth::login($user);
+
+        $token = $user->createToken('authToken')->accessToken;
+
+        return response(['user' => $user, 'access_token' => $token]);
+    }
+
+    /**
+     * Handle an incoming registration request.
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function logout(Request $request)
+    {
+
+        auth()->user()->tokens()->delete();
+
+        return response([
+            'message' => 'Logged out successfully!'
         ]);
-
-        event(new Registered($user));
-
-        Auth::login($user);
-
-        $token = auth()->user()->createToken('authToken')->accessToken;
-
-        return response(['user' => auth()->user(), 'access_token' => $token]);
-
     }
 }

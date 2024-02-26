@@ -24,4 +24,9 @@ class Client extends Model
         'created_on',
         'updated_on'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

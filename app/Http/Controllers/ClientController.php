@@ -9,48 +9,56 @@ class ClientController extends Controller
 {
     public function index()
     {
-        $clients = Client::all();
-
-        return json_decode($clients, true);
+        return Client::all();
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        $request->validate([
+
+    $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'dob' => ['required', 'string', 'max:255'],
             'marital_status' => ['required', 'string', 'in:Married, Single, Divorced'],
             'approval_status' => ['required', 'string', 'in:Pending, Processing, Approved'],
-            'created_by' => ['required', 'integer', 'exists:users,id'],
-            'updated_by' => ['required', 'integer', 'exists:users,id'],
-            'created_on' => ['required', 'string'],
-            'updated_on' => ['required', 'string']
+            'created_by' => ['integer', 'exists:users,id'],
+            'updated_by' => ['integer', 'exists:users,id'],
         ]);
 
-        $client = Client::create([
-            'name' => $request->name,
-            'dob' => $request->dob,
-            'marital_status' => $request->marital_status,
-            'approval_status' => $request->approval_status,
-            'created_by' => $request->created_by,
-            'updated_by' => $request->updated_by,
-            'created_on'=> $request->created_on,
-            'updated_on' => $request->updated_on,
-        ]);
+    $client = Client::create([
+         'name' => $request->name,
+        'dob' => $request->dob,
+        'marital_status' => $request->marital_status,
+        'approval_status' => $request->approval_status,
+        'created_by' => auth()->user()->id,
+        'updated_by' => auth()->user()->id,
+    ]);
 
-        return redirect(RouteServiceProvider::HOME);
+    return response(['user' => auth()->user(), 'client' => $client]);
+
     }
 
-    public function show(Request $request): RedirectResponse
+    public function show($id)
     {
-        
+        return Client::find($id);
     }
-    public function patch(Request $request): RedirectResponse
+
+    public function update(Request $request, $id)
     {
+        $client = Client::find($id);
         
+        $client->update($request->all());
+
+        return response(['user' => auth()->user(), 'client' => $client]);
+
     }
-    public function delete(Request $request): RedirectResponse
+
+    public function destroy($id)
     {
-        
+        return Client::destroy($id);
+    }
+
+    public function search($name)
+    {
+        return Client::where('name', 'like', '%'.$name)->get();
     }
 }
