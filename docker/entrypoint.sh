@@ -22,6 +22,9 @@ else
     echo "env file exists."
 fi
 
+# Run npm install to install dependencies
+npm install
+
 # php artisan migrate
 php artisan clear
 php artisan optimize:clear
