@@ -1,0 +1,3 @@
+Endpoint prod-laravel-api.cz00ku2a61o9.us-east-1.rds.amazonaws.com
+username prod_laravel_api
+password )pKAki?-}sliX-y{5)ZMqM(%8rQh
