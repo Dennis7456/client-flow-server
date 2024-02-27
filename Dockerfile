@@ -21,8 +21,24 @@ COPY ./docker/php/php.ini /usr/local/etc/php/php.ini
 COPY ./docker/php/php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
 COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
 
+#Install nodejs in the container
+RUN apt-get install -y nodejs npm
+
 # Set working directory to ...
 WORKDIR /app
+
+# Copy package.json and package-lock.json 
+COPY package*.json ./
+
+# Install nodejs dependencies
+RUN npm install
+
+# Copy the rest of the application code
+COPY . .
+
+# Build the vite SPA
+RUN npm run build
+
 # COPY docker/entrypoint.sh /docker/entrypoint.sh
 # RUN chmod +x /docker/entrypoint.sh
 # Copy files from current folder to container current folder (set in workdir).
