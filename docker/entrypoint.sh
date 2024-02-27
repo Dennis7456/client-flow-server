@@ -45,5 +45,8 @@ chmod -R 775 /app/storage/framework/sessions
 chmod -R 775 /app/bootstrap
 chmod -R 775 /app/bootstrap/cache
 
+# Run npm build
+npm run build
+
 php-fpm -D
 nginx -g "daemon off;"
