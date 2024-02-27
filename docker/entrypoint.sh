@@ -1,12 +1,16 @@
 #!/bin/bash
 
 if [ ! -f "vendor/autoload.php" ]; then
-    composer dump-autoload
+    # composer dump-autoload
     composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader
-    composer update
-    npm install
-    npm build
+    # composer update
 fi
+
+if [ ! -f "node_modules/*" ]; then
+    npm install
+    npm run build
+fi
+
 
 if [ ! -f ".env" ]; then
     echo "Creating env file for env $APP_ENV"
