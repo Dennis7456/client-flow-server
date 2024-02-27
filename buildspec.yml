@@ -18,9 +18,9 @@ phases:
     commands:
       - cp .env.prod .env
       - docker build -t $IMAGE .
-      - docker tag client-flow-base-image:latest 293313245946.dkr.ecr.us-east-1.amazonaws.com/client-flow-base-image:latest
+      - docker tag $IMAGE:$IMAGE_TAG $REPOSITORY/$IMAGE:$IMAGE_TAG
   post_build:
     on-failure: ABORT
     commands:
       - docker images ls -a
-      - docker push 293313245946.dkr.ecr.us-east-1.amazonaws.com/client-flow-base-image:latest
+      - docker push $REPOSITORY/$IMAGE:$IMAGE_TAG
