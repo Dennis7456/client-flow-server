@@ -3,6 +3,7 @@
 if [ ! -f "vendor/autoload.php" ]; then
     composer dump-autoload
     composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader
+    composer update
 fi
 
 if [ ! -f ".env" ]; then
@@ -26,6 +27,7 @@ fi
 php artisan clear
 php artisan optimize:clear
 php artisan migrate
+php artisan db:seed
 
 # Fix files ownership.
 chown -R www-data .
