@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if [ ! -f "vendor/autoload.php" ]; then
     composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader
@@ -22,8 +22,6 @@ else
     echo "env file exists."
 fi
 
-# Run npm install to install dependencies
-npm install
 
 # php artisan migrate
 php artisan clear
@@ -48,8 +46,6 @@ chmod -R 775 /app/storage/framework/sessions
 chmod -R 775 /app/bootstrap
 chmod -R 775 /app/bootstrap/cache
 
-# Run npm build
-npm run build
 
 php-fpm -D
 nginx -g "daemon off;"
