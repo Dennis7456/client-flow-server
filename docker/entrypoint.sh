@@ -26,6 +26,8 @@ fi
 
 
 # php artisan migrate
+php artisan config:clear
+php artisan cache:clear
 php artisan clear
 php artisan optimize:clear
 php artisan migrate
