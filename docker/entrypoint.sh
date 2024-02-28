@@ -28,7 +28,8 @@ fi
 # php artisan migrate
 # php artisan config:clear
 # php artisan cache:clear
-php artisan clear
+# php artisan clear
+php artisan config:cache
 php artisan optimize:clear
 php artisan migrate
 php artisan db:seed
