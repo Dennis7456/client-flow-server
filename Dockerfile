@@ -27,22 +27,20 @@ RUN apt-get install -y nodejs npm
 # Set working directory to ...
 WORKDIR /app
 
-# Copy package.json and package-lock.json 
-COPY package*.json ./
-
-# Install nodejs dependencies
-RUN npm install
-
-# Copy the rest of the application code
-COPY . .
-
-# Build the vite SPA
-RUN npm run build
-
 # COPY docker/entrypoint.sh /docker/entrypoint.sh
 # RUN chmod +x /docker/entrypoint.sh
 # Copy files from current folder to container current folder (set in workdir).
 COPY --chown=www-data:www-data . .
+
+# Install Node.js and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt-get install -y nodejs
+
+# Run npm install to install dependencies
+RUN npm install
+
+# Run npm run build to build frontend assets
+RUN npm run build
 
 # Create laravel caching folders.
 RUN mkdir -p ./storage/framework
