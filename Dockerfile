@@ -27,6 +27,7 @@ RUN apt-get install -y nodejs npm
 # Set working directory to ...
 WORKDIR /app
 
+RUN chmod +x /docker/entrypoint.sh
 COPY docker/entrypoint.sh /docker/entrypoint.sh
 # RUN chmod +x /docker/entrypoint.sh
 
