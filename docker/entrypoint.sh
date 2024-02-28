@@ -32,6 +32,7 @@ fi
 php artisan config:cache
 php artisan optimize:clear
 php artisan migrate
+php artisan passport:install
 php artisan db:seed
 
 # Fix files ownership.
