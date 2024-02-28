@@ -3,6 +3,7 @@
 if [ ! -f "vendor/autoload.php" ]; then
     composer dump-autoload
     composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --no-scripts --optimize-autoloader
+    composer update
 fi
 
 
