@@ -1,58 +1,95 @@
-Client Flow
-A client management application built with laravel and it's features.
+# Laravel Backend
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The Laravel backend implements two essential services using Docker images:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. **Laravel API**
+2. **MySQL Database**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+All images are bundled into one container and need to be pulled from Docker Hub. The Laravel API implements both web and API authentication engines using Laravel Passport and Sanctum. The API also uses Faker to generate a test user. Users can create and login to their accounts via Laravel Blade.
 
-## Learning Laravel
+## Setup
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Follow these steps to set up the container on a Docker installed computer:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1. Clone the GitHub repository via:
+   ```bash
+   git clone [repo link]
+   ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. Once the repository is cloned, navigate to the project directory using:
+   ```bash
+   cd client-flow-server
+   ```
 
-## Laravel Sponsors
+3. Run `composer install` in the root of the project to install necessary dependencies.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+4. Create a `.env` file from the existing `.env.example` file.
 
-### Premium Partners
+5. Set the credentials for database access in the `.env` file:
+   ```plaintext
+   DB_CONNECTION=mysql
+   DB_HOST=mysql
+   DB_PORT=3306
+   DB_DATABASE=client_flow_server
+   DB_USERNAME=sail
+   DB_PASSWORD=password
+   ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+6. To access the application container, run:
+   ```bash
+   make start
+   ```
 
-## Contributing
+7. If you successfully connect to the database, you should be able to set up your application key, create a database, and run migrations from the browser window.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+8. Once this is done, you can go ahead and run:
+   ```bash
+   ./vendor/bin/sail up
+   ```
 
-## Code of Conduct
+9. In a separate terminal window, run:
+   ```bash
+   ./vendor/bin/sail artisan db:seed
+   ```
+   to seed the database with the test user.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+10. While `./vendor/bin/sail up` is still running, navigate to the project root via:
+    ```bash
+    ./vendor/bin/sail root-shell
+    ```
+    in a separate window and run:
+    ```bash
+    cd ..
+    ```
+    to navigate one level down the project directory.
 
-## Security Vulnerabilities
+11. Run:
+    ```bash
+    chown -R sail:sail html
+    ```
+    to grant permissions to the sail user shipped with Laravel in order to set up Laravel with Vite.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+12. After this is done, run:
+    ```bash
+    exit
+    ```
+    to exit the root command line.
 
-## License
+13. Run:
+    ```bash
+    ./vendor/bin/sail npm install
+    ```
+    to install npm dependencies for Vite and:
+    ```bash
+    ./vendor/bin/sail npm run build
+    ```
+    to build the Vite client.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+14. Once this is complete, you should be able to view the Laravel login page on [http://localhost:80](http://localhost:80).
+
+15. Finally, set up your Passport keys by generating them using the command:
+    ```bash
+    ./vendor/bin/sail artisan passport:install
+    ```
+
+Feel free to reach out if you encounter any issues or have any questions!
